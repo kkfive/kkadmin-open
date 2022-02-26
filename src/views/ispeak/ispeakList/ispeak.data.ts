@@ -6,7 +6,6 @@ import { Time } from '/@/components/Time';
 import { getAllTagList, updateIspeakStatus } from '/@/api/ispeak/ispeak';
 import { useMessage } from '/@/hooks/web/useMessage';
 
-const toUser = '';
 export const columns: BasicColumn[] = [
   // {
   //   title: '标题',
@@ -141,9 +140,6 @@ export const searchFormSchema: FormSchema[] = [
       api: getAllTagList,
       labelField: 'name',
       valueField: '_id',
-      params: {
-        user: toUser,
-      },
     },
     labelWidth: '50px',
     colProps: { span: 6 },
@@ -196,9 +192,6 @@ export const formSchema: FormSchema[] = [
       api: getAllTagList,
       labelField: 'name',
       valueField: '_id',
-      params: {
-        user: toUser,
-      },
     },
     required: true,
   },

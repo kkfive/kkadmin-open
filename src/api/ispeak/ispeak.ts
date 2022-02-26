@@ -7,6 +7,7 @@ enum Api {
   addIspeak = '/ispeak/add',
   updateIspeak = '/ispeak/update',
   deleteSpeak = '/ispeak/',
+  getOneSpeak = '/ispeak/get/',
   updateIspeakStatus = '/ispeak/status/',
   addIspeakTag = '/ispeak/tag/add',
   updateIspeakTag = '/ispeak/tag/update',
@@ -37,6 +38,8 @@ export const getIspeakTagByPage = (params?) => defHttp.get({ url: Api.getIspeakT
 
 export const addIspeakTag = (params) => defHttp.post({ url: Api.addIspeakTag, params });
 export const updateIspeakTag = (params) => defHttp.post({ url: Api.updateIspeakTag, params });
+
+export const getIspeakById = (params) => defHttp.get({ url: Api.getOneSpeak + params });
 
 export const getIspeakCircleByPage = (params) =>
   defHttp.get({ url: Api.getIspeakCircleByPage, params });

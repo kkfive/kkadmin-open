@@ -19,7 +19,8 @@
   import { useModalContext } from '../../Modal';
   import { useRootSetting } from '/@/hooks/setting/useRootSetting';
   import { onMountedOrActivated } from '/@/hooks/core/onMountedOrActivated';
-
+  import { useGlobSetting } from '/@/hooks/setting';
+  const { uploadUrl, uploadToken } = useGlobSetting();
   type Lang = 'zh_CN' | 'en_US' | 'ja_JP' | 'ko_KR' | undefined;
 
   export default defineComponent({
@@ -90,6 +91,40 @@
           theme: getDarkMode.value === 'dark' ? 'dark' : 'classic',
           lang: unref(getCurrentLang),
           mode: 'sv',
+          /**
+           * emoji , headings , bold , italic , strike , 
+           * | , line , quote , list , ordered-list , check ,outdent 
+           * ,indent , code , inline-code , insert-after , insert-before ,undo ,
+           *  redo , upload , link , table , record , edit-mode , both ,
+           *  preview , fullscreen , outline , code-theme , content-theme , export, devtools , info , help , br
+
+           */
+          toolbar: [
+            'headings',
+            'bold',
+            'italic',
+            'strike',
+            '|',
+            'line',
+            'quote',
+            'list',
+            'ordered-list',
+            'check',
+            'outdent',
+            'code',
+            'inline-code',
+            'insert-after',
+            '|',
+            'upload',
+            'link',
+            '|',
+            'undo',
+            'redo',
+            'edit-mode',
+            'both',
+            'preview',
+            'fullscreen',
+          ],
           fullscreen: {
             index: 520,
           },
@@ -116,6 +151,32 @@
           ...bindValue,
           cache: {
             enable: false,
+          },
+          upload: {
+            url: uploadUrl,
+            fieldName: 'image',
+            headers: {
+              token: uploadToken,
+            },
+            multiple: false,
+
+            format: (files: File[], resopnText) => {
+              const responseJson = JSON.parse(resopnText);
+              const result = {
+                msg: responseJson.msg,
+                code: responseJson.code,
+                data: {
+                  errFiles: [] as string[],
+                  succMap: {},
+                },
+              };
+              if (responseJson.code === 200) {
+                result.data.succMap[responseJson.data.name] = responseJson.data.url;
+              } else {
+                result.data.errFiles.push(files[0].name);
+              }
+              return JSON.stringify(result);
+            },
           },
         });
       }

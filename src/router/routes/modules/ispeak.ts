@@ -30,6 +30,26 @@ const ispeak: AppRouteModule = {
         title: 'Ispeak标签管理',
       },
     },
+    {
+      path: 'edit',
+      name: 'ISpeakAdd',
+      component: () => import('/@/views/ispeak/ipseakEditor/Editor.vue'),
+      meta: {
+        title: '新增speak',
+        hideMenu: true,
+      },
+      children: [
+        {
+          path: ':id',
+          name: 'ISpeakEdit',
+          component: () => import('/@/views/ispeak/ipseakEditor/Editor.vue'),
+          meta: {
+            title: '编辑speak',
+            hideMenu: true,
+          },
+        },
+      ],
+    },
   ],
 };
 

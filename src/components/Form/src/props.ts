@@ -6,6 +6,10 @@ import type { ButtonProps } from 'ant-design-vue/es/button/buttonTypes';
 import type { RowProps } from 'ant-design-vue/lib/grid/Row';
 import { propTypes } from '/@/utils/propTypes';
 
+interface BaseButtonProps extends ButtonProps {
+  text?: string;
+}
+
 export const basicProps = {
   model: {
     type: Object as PropType<Recordable>,
@@ -72,12 +76,12 @@ export const basicProps = {
   // 是否聚焦第一个输入框，只在第一个表单项为input的时候作用
   autoFocusFirstItem: propTypes.bool,
   // 重置按钮配置
-  resetButtonOptions: Object as PropType<Partial<ButtonProps>>,
+  resetButtonOptions: Object as PropType<Partial<BaseButtonProps>>,
 
   // 显示确认按钮
   showSubmitButton: propTypes.bool.def(true),
   // 确认按钮配置
-  submitButtonOptions: Object as PropType<Partial<ButtonProps>>,
+  submitButtonOptions: Object as PropType<Partial<BaseButtonProps>>,
 
   // 自定义重置函数
   resetFunc: Function as PropType<() => Promise<void>>,

@@ -36,13 +36,13 @@
 
   import { columns, searchFormSchema } from './ispeak.data';
   import { getIspeakListByPage, deleteIspeakById } from '/@/api/ispeak/ispeak';
-  import { useUserStore } from '/@/store/modules/user';
-
+  // import { useUserStore } from '/@/store/modules/user';
+  import { useGo } from '/@/hooks/web/usePage';
   export default defineComponent({
     name: 'FriendList',
     components: { BasicTable, MenuDrawer, TableAction },
     setup() {
-      const [registerDrawer, { openDrawer }] = useDrawer();
+      const [registerDrawer] = useDrawer();
       const [registerTable, { reload }] = useTable({
         title: '友链列表',
         api: getIspeakListByPage,
@@ -67,24 +67,26 @@
           fixed: undefined,
         },
       });
-      const { userInfo } = useUserStore();
+      // const { userInfo } = useUserStore();
+      const go = useGo();
       function handleCreate() {
-        openDrawer(true, {
-          isUpdate: false,
-          record: { from: userInfo?._id },
-        });
+        // openDrawer(true, {
+        //   isUpdate: false,
+        //   record: { from: userInfo?._id },
+        // });
+        go('/ispeak/edit');
       }
 
       function handleEdit(record: Recordable) {
-        openDrawer(true, {
-          record,
-          isUpdate: true,
-          tag: record.tag[0]._id,
-        });
+        // openDrawer(true, {
+        //   record,
+        //   isUpdate: true,
+        //   tag: record.tag[0]._id,
+        // });
+        go('/ispeak/edit/' + record._id);
       }
 
       async function handleDelete(record: Recordable) {
-        console.log(record);
         await deleteIspeakById(record._id);
         handleSuccess();
       }
@@ -95,11 +97,11 @@
 
       return {
         registerTable,
-        registerDrawer,
         handleCreate,
         handleEdit,
         handleDelete,
         handleSuccess,
+        registerDrawer,
       };
     },
   });
