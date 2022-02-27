@@ -71,6 +71,10 @@
       });
     } else {
       setTitle('新增speak');
+      updateSchema({
+        field: '_id',
+        ifShow: false,
+      });
       setProps({
         submitButtonOptions: {
           text: '提交',
