@@ -26,6 +26,13 @@ export const settingList = [
 // 基础设置 form
 export const baseSetschemas: FormSchema[] = [
   {
+    field: '_id',
+    component: 'Input',
+    label: '个人ID',
+    colProps: { span: 18 },
+    dynamicDisabled: true,
+  },
+  {
     field: 'avatar',
     component: 'Input',
     label: '头像连接',
