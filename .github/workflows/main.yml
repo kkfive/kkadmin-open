@@ -39,6 +39,11 @@ jobs:
           yarn install
 
       - name: 5. 生成页面并压缩
+        env:
+          VITE_GLOB_API_URL: ${{ secrets.VITE_GLOB_API_URL }}
+          VITE_GLOB_UPLOAD_URL: ${{ secrets.VITE_GLOB_UPLOAD_URL }}
+          VITE_GLOB_UPLOAD_TOKEN: ${{ secrets.VITE_GLOB_UPLOAD_TOKEN }}
+          VITE_GLOB_APP_TITLE: ${{ secrets.VITE_GLOB_APP_TITLE }}
         run: |
           yarn run build
 
