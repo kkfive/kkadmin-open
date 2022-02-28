@@ -3,9 +3,9 @@ name: kk-admin
 
 # master branch on push, auto run
 on:
+  workflow_dispatch:
   push:
-    branches:
-      - master
+    branches: master
 
 jobs:
   build:
