@@ -35,11 +35,11 @@ jobs:
       - name: 4. 安装插件
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: |
-          export TZ='Asia/Shanghai'
           yarn install
 
       - name: 5. 生成页面并压缩
         env:
+          TZ: Asia/Shanghai
           VITE_GLOB_API_URL: ${{ secrets.VITE_GLOB_API_URL }}
           VITE_GLOB_UPLOAD_URL: ${{ secrets.VITE_GLOB_UPLOAD_URL }}
           VITE_GLOB_UPLOAD_TOKEN: ${{ secrets.VITE_GLOB_UPLOAD_TOKEN }}
