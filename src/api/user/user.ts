@@ -5,9 +5,9 @@ enum Api {
   ACCOUNT_INFO = '/user/getUserInfo',
   UPDATE_INFO = '/user/update',
   GET_USER_TOKEN = '/user/token',
-  ADD_USER_TOKEN = 'user/token/add',
-  UPDATE_USER_TOKEN = 'user/token/update',
-  DELETE_USER_TOKEN = 'user/token/delete/',
+  ADD_USER_TOKEN = '/user/token/add',
+  UPDATE_USER_TOKEN = '/user/token/update',
+  DELETE_USER_TOKEN = '/user/token/delete/',
   CHANGE_USER_PASSWORD = '/user/password',
 }
 
