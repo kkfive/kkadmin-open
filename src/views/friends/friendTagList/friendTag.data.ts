@@ -53,9 +53,9 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '创建时间',
-    dataIndex: 'createAt',
+    dataIndex: 'createdAt',
     customRender: ({ record }) => {
-      return h(Time, { value: (record as any).createAt, mode: 'date' });
+      return h(Time, { value: (record as any).createdAt, mode: 'date' });
     },
   },
 ];

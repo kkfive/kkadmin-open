@@ -87,18 +87,18 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '更新时间',
-    dataIndex: 'updateAt',
+    dataIndex: 'updatedAt',
     width: 180,
     customRender: ({ record }) => {
-      return h(Time, { value: (record as any).updateAt, mode: 'date' });
+      return h(Time, { value: (record as any).updatedAt, mode: 'date' });
     },
   },
   {
     title: '创建时间',
-    dataIndex: 'createAt',
+    dataIndex: 'createdAt',
     width: 180,
     customRender: ({ record }) => {
-      return h(Time, { value: (record as any).createAt, mode: 'date' });
+      return h(Time, { value: (record as any).createdAt, mode: 'date' });
     },
   },
 ];
