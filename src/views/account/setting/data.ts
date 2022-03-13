@@ -45,6 +45,13 @@ export const baseSetschemas: FormSchema[] = [
     colProps: { span: 18 },
   },
   {
+    field: 'githubId',
+    component: 'Input',
+    label: 'GitHubId',
+    colProps: { span: 18 },
+    helpMessage: '注：id不是指用户名',
+  },
+  {
     field: 'nickName',
     component: 'Input',
     label: '昵称',
