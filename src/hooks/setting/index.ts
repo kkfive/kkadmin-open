@@ -11,6 +11,8 @@ export const useGlobSetting = (): Readonly<GlobConfig> => {
     VITE_GLOB_API_URL_PREFIX,
     VITE_GLOB_UPLOAD_URL,
     VITE_GLOB_UPLOAD_TOKEN,
+    VITE_GLOB_LSKY_VERSION,
+    VITE_GLOB_LSKY_STRATEGY_ID,
   } = getAppEnvConfig();
 
   if (!/[a-zA-Z\_]*/.test(VITE_GLOB_APP_SHORT_NAME)) {
@@ -27,6 +29,8 @@ export const useGlobSetting = (): Readonly<GlobConfig> => {
     urlPrefix: VITE_GLOB_API_URL_PREFIX || '/api',
     uploadUrl: VITE_GLOB_UPLOAD_URL,
     uploadToken: VITE_GLOB_UPLOAD_TOKEN || '',
+    lskyVersion: VITE_GLOB_LSKY_VERSION || 'V1',
+    lskyStrategyId: VITE_GLOB_LSKY_STRATEGY_ID || '',
   };
   return glob as Readonly<GlobConfig>;
 };

@@ -20,7 +20,7 @@
   import { useRootSetting } from '/@/hooks/setting/useRootSetting';
   import { onMountedOrActivated } from '/@/hooks/core/onMountedOrActivated';
   import { useGlobSetting } from '/@/hooks/setting';
-  const { uploadUrl, uploadToken } = useGlobSetting();
+  const { uploadUrl, uploadToken, lskyVersion, lskyStrategyId } = useGlobSetting();
   type Lang = 'zh_CN' | 'en_US' | 'ja_JP' | 'ko_KR' | undefined;
 
   export default defineComponent({
@@ -87,13 +87,23 @@
         const wrapEl = unref(wrapRef) as HTMLElement;
         if (!wrapEl) return;
         const bindValue = { ...attrs, ...props };
+        const uploadHeaders = {};
+        const extraData = {};
+        const lskyVersionUpper = lskyVersion.toUpperCase();
+        if (lskyVersionUpper === 'V2') {
+          uploadHeaders['Authorization'] = uploadToken;
+          uploadHeaders['Accept'] = 'application/json';
+          if (lskyStrategyId) extraData['strategy_id'] = lskyStrategyId;
+        } else if (lskyVersionUpper === 'V1') {
+          uploadHeaders['token'] = uploadToken;
+        }
         const insEditor = new Vditor(wrapEl, {
           theme: getDarkMode.value === 'dark' ? 'dark' : 'classic',
           lang: unref(getCurrentLang),
           mode: 'sv',
           /**
-           * emoji , headings , bold , italic , strike , 
-           * | , line , quote , list , ordered-list , check ,outdent 
+           * emoji , headings , bold , italic , strike ,
+           * | , line , quote , list , ordered-list , check ,outdent
            * ,indent , code , inline-code , insert-after , insert-before ,undo ,
            *  redo , upload , link , table , record , edit-mode , both ,
            *  preview , fullscreen , outline , code-theme , content-theme , export, devtools , info , help , br
@@ -154,26 +164,34 @@
           },
           upload: {
             url: uploadUrl,
-            fieldName: 'image',
-            headers: {
-              token: uploadToken,
-            },
+            fieldName: lskyVersionUpper === 'V2' ? 'file' : 'image',
+            headers: uploadHeaders,
             multiple: false,
-
+            linkToImgUrl: uploadUrl,
+            extraData,
             format: (files: File[], resopnText) => {
               const responseJson = JSON.parse(resopnText);
               const result = {
-                msg: responseJson.msg,
-                code: responseJson.code,
+                msg: lskyVersionUpper === 'V2' ? responseJson.message : responseJson.msg,
+                code:
+                  lskyVersionUpper === 'V2' ? (responseJson.status ? 200 : -1) : responseJson.code,
                 data: {
                   errFiles: [] as string[],
                   succMap: {},
                 },
               };
-              if (responseJson.code === 200) {
-                result.data.succMap[responseJson.data.name] = responseJson.data.url;
-              } else {
-                result.data.errFiles.push(files[0].name);
+              if (lskyVersionUpper === 'V2') {
+                if (responseJson.status) {
+                  result.data.succMap[responseJson.data.name] = responseJson.data.links.url;
+                } else {
+                  result.data.errFiles.push(files[0].name);
+                }
+              } else if (lskyVersionUpper === 'V1') {
+                if (responseJson.code === 200) {
+                  result.data.succMap[responseJson.data.name] = responseJson.data.url;
+                } else {
+                  result.data.errFiles.push(files[0].name);
+                }
               }
               return JSON.stringify(result);
             },

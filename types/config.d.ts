@@ -147,6 +147,9 @@ export interface GlobConfig {
   // Project abbreviation
   shortName: string;
   uploadToken: string;
+  lskyVersion: string;
+
+  lskyStrategyId: string | number;
 }
 export interface GlobEnvConfig {
   // Site title
@@ -160,4 +163,6 @@ export interface GlobEnvConfig {
   // Upload url
   VITE_GLOB_UPLOAD_URL?: string;
   VITE_GLOB_UPLOAD_TOKEN?: string;
+  VITE_GLOB_LSKY_VERSION?: string;
+  VITE_GLOB_LSKY_STRATEGY_ID?: number | string;
 }
