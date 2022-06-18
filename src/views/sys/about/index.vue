@@ -18,11 +18,12 @@
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { h } from 'vue';
+  import { h, onMounted, ref } from 'vue';
   import { Tag } from 'ant-design-vue';
   import { PageWrapper } from '/@/components/Page';
   import { Description, DescItem, useDescription } from '/@/components/Description/index';
-  import { GITHUB_URL, SITE_URL, DOC_URL, VBEN_URL } from '/@/settings/siteSetting';
+  import { GITHUB_URL, DOC_URL, VBEN_URL } from '/@/settings/siteSetting';
+  import { apiVersionApi } from '/@/api/open/openApi';
 
   const { pkg, lastBuildTime } = __APP_INFO__;
 
@@ -32,11 +33,11 @@
   const devSchema: DescItem[] = [];
 
   const commonTagRender = (color: string) => (curVal) => h(Tag, { color }, () => curVal);
-  const commonLinkRender = (text: string) => (href) => h('a', { href, target: '_blank' }, text);
+  // const commonLinkRender = (text: string) => (href) => h('a', { href, target: '_blank' }, text);
 
   const infoSchema: DescItem[] = [
     {
-      label: '版本',
+      label: '前端版本',
       field: 'version',
       render: commonTagRender('blue'),
     },
@@ -46,29 +47,28 @@
       render: commonTagRender('blue'),
     },
     {
-      label: '文档地址',
-      field: 'doc',
-      render: commonLinkRender('文档地址'),
+      label: 'API版本',
+      field: 'apiVersion',
+      render: commonTagRender('red'),
     },
     {
-      label: '预览地址',
-      field: 'preview',
-      render: commonLinkRender('预览地址'),
+      label: 'API更新时间',
+      field: 'apiDate',
+      render: commonTagRender('red'),
     },
-    {
-      label: 'Github',
-      field: 'github',
-      render: commonLinkRender('Github'),
-    },
+    // {
+    //   label: 'Github',
+    //   field: 'github',
+    //   render: commonLinkRender('Github'),
+    // },
   ];
 
-  const infoData = {
+  const infoData = ref({
     version,
     lastBuildTime,
-    doc: DOC_URL,
-    preview: SITE_URL,
-    github: GITHUB_URL,
-  };
+    apiVersion: 'loading...',
+    apiDate: 'loading...',
+  });
 
   Object.keys(dependencies).forEach((key) => {
     schema.push({ field: key, label: key });
@@ -97,5 +97,11 @@
     data: infoData,
     schema: infoSchema,
     column: 2,
+  });
+  onMounted(async () => {
+    const result = await apiVersionApi();
+    console.log(result);
+    infoData.value.apiDate = result.date;
+    infoData.value.apiVersion = result.version;
   });
 </script>
