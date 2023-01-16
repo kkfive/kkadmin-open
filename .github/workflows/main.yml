@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
     steps:
       # check it to your workflow can access it
       # from: https://github.com/actions/checkout
@@ -48,7 +48,7 @@ jobs:
           yarn run build
 
       - name: 6. 推送到vercel分支
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v3.9.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: vercel
